@@ -1,0 +1,103 @@
+{
+  "name": "Fleet Route Optimizer example",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a1",
+      "name": "When clicking 'Execute workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"json\": {\n      \"id\": \"Stop 1\",\n      \"lat\": 41.70708,\n      \"lon\": -81.25979,\n      \"demand\": 46.66,\n      \"service_minutes\": 20,\n      \"window_open\": \"09:45\",\n      \"window_close\": \"12:45\"\n    }\n  },\n  {\n    \"json\": {\n      \"id\": \"Stop 2\",\n      \"lat\": 41.74619,\n      \"lon\": -81.26962,\n      \"demand\": 142,\n      \"service_minutes\": 20,\n      \"window_open\": \"10:15\",\n      \"window_close\": \"13:15\"\n    }\n  },\n  {\n    \"json\": {\n      \"id\": \"Stop 3\",\n      \"lat\": 41.70138,\n      \"lon\": -81.36113,\n      \"demand\": 20.47,\n      \"service_minutes\": 20,\n      \"window_open\": \"11:45\",\n      \"window_close\": \"14:45\"\n    }\n  },\n  {\n    \"json\": {\n      \"id\": \"Stop 4\",\n      \"lat\": 41.65302,\n      \"lon\": -81.43658,\n      \"demand\": 63.05,\n      \"service_minutes\": 20,\n      \"window_open\": \"13:30\",\n      \"window_close\": \"16:30\"\n    }\n  },\n  {\n    \"json\": {\n      \"id\": \"Stop 5\",\n      \"lat\": 41.64081,\n      \"lon\": -81.43933,\n      \"demand\": 70,\n      \"service_minutes\": 20,\n      \"window_open\": \"14:15\",\n      \"window_close\": \"17:15\"\n    }\n  },\n  {\n    \"json\": {\n      \"id\": \"Stop 6\",\n      \"lat\": 41.19725,\n      \"lon\": -81.43082,\n      \"demand\": 44.72,\n      \"service_minutes\": 20,\n      \"window_open\": \"09:30\",\n      \"window_close\": \"12:30\"\n    }\n  }\n];"
+      },
+      "id": "a2",
+      "name": "Stops",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "route",
+        "operation": "optimizeRoutes",
+        "depotLocationType": "coordinates",
+        "depotLat": 41.49837,
+        "depotLon": -81.65938,
+        "departureTime": "08:00",
+        "stopLocationType": "coordinates",
+        "stopId": "={{ $json.id }}",
+        "stopLat": "={{ $json.lat }}",
+        "stopLon": "={{ $json.lon }}",
+        "stopFields": {
+          "demand": "={{ $json.demand }}",
+          "serviceMinutes": "={{ $json.service_minutes }}",
+          "windowOpen": "={{ $json.window_open }}",
+          "windowClose": "={{ $json.window_close }}"
+        },
+        "vehicleMode": "list",
+        "vehicleList": {
+          "vehicle": [
+            {
+              "name": "Van 1",
+              "capacity": 250,
+              "driverName": "Ana",
+              "driverEmail": "ana@example.com"
+            },
+            {
+              "name": "Van 2",
+              "capacity": 250,
+              "driverName": "Bob"
+            }
+          ]
+        },
+        "country": "US",
+        "searchSeconds": 15,
+        "waitForResult": true,
+        "outputMode": "route",
+        "options": {}
+      },
+      "id": "a3",
+      "name": "Fleet Route Optimizer",
+      "type": "n8n-nodes-fleet-route-optimizer.fleetRouteOptimizer",
+      "typeVersion": 1,
+      "position": [
+        440,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Stops",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stops": {
+      "main": [
+        [
+          {
+            "node": "Fleet Route Optimizer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

@@ -1,0 +1,14 @@
+{
+	"node": "n8n-nodes-fleet-route-optimizer.fleetRouteOptimizer",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Productivity", "Utility"],
+	"resources": {
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/kindoflost/n8n-nodes-fleet-route-optimizer#readme"
+			}
+		]
+	},
+	"alias": ["route", "routing", "vehicle routing", "VRP", "delivery", "dispatch", "optimization", "OR-Tools", "TSP"]
+}

@@ -1,0 +1,63 @@
+{
+	"name": "n8n-nodes-fleet-route-optimizer",
+	"version": "0.1.0",
+	"description": "n8n node for the free Fleet Route Optimizer: plan delivery routes for one or more vehicles (time windows, capacities, driver links) with Google OR-Tools. No account needed.",
+	"license": "MIT",
+	"homepage": "https://github.com/kindoflost/n8n-nodes-fleet-route-optimizer#readme",
+	"keywords": [
+		"n8n-community-node-package",
+		"n8n",
+		"route optimization",
+		"vehicle routing",
+		"vrp",
+		"delivery routes",
+		"route planner",
+		"or-tools",
+		"logistics"
+	],
+	"author": {
+		"name": "Kind of Lost",
+		"email": "mario@kindoflost.com",
+		"url": "https://routing.kindoflost.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kindoflost/n8n-nodes-fleet-route-optimizer.git"
+	},
+	"scripts": {
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"release": "n8n-node release",
+		"prepublishOnly": "n8n-node prerelease"
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [],
+		"nodes": [
+			"dist/nodes/FleetRouteOptimizer/FleetRouteOptimizer.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "*",
+		"eslint": "9.32.0",
+		"prettier": "3.6.2",
+		"release-it": "^21.1.0",
+		"typescript": "5.9.2"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	},
+	"bugs": {
+		"url": "https://github.com/kindoflost/n8n-nodes-fleet-route-optimizer/issues"
+	},
+	"engines": {
+		"node": ">=20.15"
+	}
+}
