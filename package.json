@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-fleet-route-optimizer",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n node for the free Fleet Route Optimizer: plan delivery routes for one or more vehicles (time windows, capacities, driver links) with Google OR-Tools. No account needed.",
 	"license": "MIT",
 	"homepage": "https://github.com/kindoflost/n8n-nodes-fleet-route-optimizer#readme",

@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.1
+
+- README: inline usage example (input items and the output of a real run).
+
+## 0.1.0
 
 - First version: Fleet Route Optimizer node with resource Route and operations
   Optimize (wait for the result or return a job ID), Get Result and Check Request.

@@ -12,7 +12,7 @@ the stop order, arrival times, load carried, a Google Maps link and a
 The node calls the service's public REST API (`https://routing.kindoflost.com/api/v1`).
 
 [Installation](#installation) · [Operations](#operations) · [Inputs](#inputs) ·
-[Output](#output) · [Limits](#limits) · [Example workflow](#example-workflow) ·
+[Output](#output) · [Usage example](#usage-example) · [Limits](#limits) · [Example workflow](#example-workflow) ·
 [Compatibility](#compatibility) · [Privacy](#privacy)
 
 ## Installation
@@ -70,6 +70,114 @@ allowed, not a proof of optimality.
 
 With *Wait for Result* off, Optimize returns `{ status: "running", job_id }`; pass
 it to a later **Get Result** node.
+
+## Usage example
+
+Three stops go in as three input items (from a Code node, a sheet, a database...):
+
+```json
+[
+  {
+    "json": {
+      "id": "Stop 1",
+      "lat": 41.70708,
+      "lon": -81.25979,
+      "demand": 46,
+      "service_minutes": 20,
+      "window_open": "09:45",
+      "window_close": "12:45"
+    }
+  },
+  {
+    "json": {
+      "id": "Stop 2",
+      "lat": 41.74619,
+      "lon": -81.26962,
+      "demand": 142,
+      "service_minutes": 20,
+      "window_open": "10:15",
+      "window_close": "13:15"
+    }
+  },
+  {
+    "json": {
+      "id": "Stop 3",
+      "lat": 41.70138,
+      "lon": -81.36113,
+      "demand": 20,
+      "service_minutes": 20,
+      "window_open": "11:45",
+      "window_close": "14:45"
+    }
+  }
+]
+```
+
+Node settings: **Optimize**, depot latitude `41.49837` / longitude `-81.65938`,
+Departure Time `08:00`, Stop ID `{{ $json.id }}`, Stop Latitude `{{ $json.lat }}`,
+Stop Longitude `{{ $json.lon }}`, Stop Fields mapped from `demand`, `service_minutes`,
+`window_open` and `window_close`, one vehicle **Van 1** (capacity 250, driver Ana,
+email ana@example.com), Search Seconds 10, Output **One Item per Route**.
+
+Output: one item for the one route (from a real run; the two links are shortened here):
+
+```json
+[
+  {
+    "json": {
+      "route": 1,
+      "vehicle": "Van 1",
+      "driver": "Ana",
+      "driver_email": "ana@example.com",
+      "stop_count": 3,
+      "leave_depot": "12:04",
+      "back_at_depot": "14:45",
+      "route_minutes": 161,
+      "load": 208,
+      "driver_link": "https://routing.kindoflost.com/driver#...",
+      "google_maps": [
+        "https://www.google.com/maps/dir/?api=1&origin=41.49837,-81.65938&..."
+      ],
+      "departure_note": "Leaves at 12:04, not when the depot opens (08:00), because of the time windows at ...",
+      "sequence": [
+        {
+          "n": 1,
+          "stop": "Stop 1",
+          "arrive": "12:45",
+          "load_so_far": 46
+        },
+        {
+          "n": 2,
+          "stop": "Stop 2",
+          "arrive": "13:13",
+          "load_so_far": 188
+        },
+        {
+          "n": 3,
+          "stop": "Stop 3",
+          "arrive": "13:49",
+          "load_so_far": 208
+        }
+      ],
+      "totals": {
+        "vehicles_used": 1,
+        "vehicles_available": 1,
+        "stops_served": 3,
+        "stops_unserved": 0,
+        "route_minutes_total": 161
+      },
+      "unserved": [],
+      "warnings": [],
+      "quality": "Best routes found by OR-Tools guided local search in the time allowed; good, but not proven optimal.",
+      "stopped_because": "search time limit reached",
+      "solve_seconds": 11.8
+    }
+  }
+]
+```
+
+Pick **One Item per Stop** instead to get one item per stop with its arrival time,
+ready for a Gmail, Twilio or Google Sheets node.
 
 ## Limits
 
